@@ -45,7 +45,7 @@ const App = () => {
       <header className="App-header">
         <h1>G.O.A.T <span role="img" aria-label="goat emoji">🐐</span></h1>
         <h4>(Geolocation Output Accuracy Tester)</h4>
-        <p>Effective Network Type {network.effectiveType}</p>
+        {network.type && <p>Network Type {network.type}</p>}
         <label htmlFor="accuracy">
           <input type="checkbox" id="accuracy" onChange={handleCheckedChange} />
           Enable High Accuracy
