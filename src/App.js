@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './App.css'
-import useNetworkStatus from './common/useNetworkStatus'
 import Location from './components/location'
+import Device from './components/device'
 import {
   StaticGoogleMap,
   Marker
@@ -11,7 +11,6 @@ const App = () => {
 
   const [coords, setCoords] = useState()
   const [highAccuracy, setHighAccuracy] = useState(false)
-  const network = useNetworkStatus()
 
   const onEvent = (event) => {
     setCoords({
@@ -42,10 +41,12 @@ const App = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header>
         <h1>G.O.A.T <span role="img" aria-label="goat emoji">🐐</span></h1>
         <h4>(Geolocation Output Accuracy Tester)</h4>
-        {network.type && <p>Network Type {network.type}</p>}
+      </header>
+      <section>
+        <Device />
         <label htmlFor="accuracy">
           <input type="checkbox" id="accuracy" onChange={handleCheckedChange} />
           Enable High Accuracy
@@ -57,16 +58,19 @@ const App = () => {
           Get Location
         </button>
         {coords && <Location {...coords} />}
-        {coords &&  <StaticGoogleMap
-          size="300x250"
-          apiKey="AIzaSyBXaEL49NrCDAEgroJrIPeG9VVgF61Sk1M"
-          scale="2"
-        >
-          <Marker.Group>
-            <Marker location={`${coords.latitude},${coords.longitude}`} />
-        </Marker.Group>
-      </StaticGoogleMap>}
-      </header>
+        {coords &&
+          <StaticGoogleMap
+            size="300x250"
+            apiKey="AIzaSyBXaEL49NrCDAEgroJrIPeG9VVgF61Sk1M"
+            scale="2"
+            className="map"
+          >
+            <Marker.Group>
+              <Marker location={`${coords.latitude},${coords.longitude}`} />
+            </Marker.Group>
+          </StaticGoogleMap>
+        }
+      </section>
     </div>
   )
 }

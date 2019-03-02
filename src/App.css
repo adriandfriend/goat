@@ -1,16 +1,11 @@
 .App {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
-}
-
-.App-header {
   background-color: rgb(0, 0, 0);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* align-items: center;
-  justify-content: center; */
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
   color: white;
 }
 
@@ -26,6 +21,11 @@ h4 {
 
 p {
   text-transform: uppercase;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
 }
 
 .btn {
@@ -47,4 +47,13 @@ p {
 }
 .button:active {
   background: #1b435e;
+}
+
+.map {
+  width: 50%;
+  margin: auto;
+}
+
+ul {
+  list-style-type: none;
 }
