@@ -8,7 +8,7 @@ const Location = (props) => {
     <div>
       <p>Latitude : {latitude}</p>
       <p>Longitude : {longitude}</p>
-      <p>Accuracy: {accuracy / 1000} metres</p>
+      <p>Accuracy: {accuracy} metres</p>
     </div>
   )
 
