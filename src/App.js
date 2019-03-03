@@ -1,7 +1,15 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './App.css'
 import Location from './components/location'
-import Device from './components/device'
+import {
+  osName,
+  osVersion,
+  browserVersion,
+  browserName,
+  mobileVendor,
+  mobileModel
+} from "react-device-detect"
+import firebase from "./firebase"
 import {
   StaticGoogleMap,
   Marker
@@ -13,11 +21,33 @@ const App = () => {
   const [highAccuracy, setHighAccuracy] = useState(false)
 
   const onEvent = (event) => {
+    save(event)
+  }
+
+  useEffect(() => {
+    if(coords) saveToDb();
+  });
+
+  const save = (event) => {
     setCoords({
       accuracy: event.coords.accuracy,
       latitude: event.coords.latitude,
       longitude: event.coords.longitude,
       timestamp: event.timestamp,
+    })
+  }
+
+  const saveToDb = () => {
+    const db = firebase.firestore()
+
+    db.collection('locations').add({
+      browser: `${browserName} v${browserVersion}`,
+      os: `${osName} v${osVersion}`,
+      device: mobileVendor ? `${mobileVendor} ${mobileModel}` : '',
+      geo: new firebase.firestore.GeoPoint(coords.latitude, coords.longitude),
+      accuracy: coords.accuracy,
+      high: highAccuracy,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
     })
   }
 
@@ -46,7 +76,11 @@ const App = () => {
         <h4>(Geolocation Output Accuracy Tester)</h4>
       </header>
       <section>
-        <Device />
+        <ul>
+          <li>{`OS: ${osName} v${osVersion}`}</li>
+          <li>{`Browser: ${browserName} v${browserVersion}`}</li>
+          {mobileVendor !== 'none' && <li>{`Device: ${mobileVendor} ${mobileModel}`}</li>}
+        </ul>
         <label htmlFor="accuracy">
           <input type="checkbox" id="accuracy" onChange={handleCheckedChange} />
           Enable High Accuracy
